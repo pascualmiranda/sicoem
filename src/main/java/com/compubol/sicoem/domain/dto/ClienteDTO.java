@@ -1,6 +1,7 @@
 package com.compubol.sicoem.domain.dto;
 
 import com.compubol.sicoem.domain.entities.Identidad;
+import com.compubol.sicoem.domain.entities.Municipio;
 import lombok.*;
 
 @Getter
@@ -8,12 +9,12 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class UsuarioDTO {
+public class ClienteDTO {
     private Long id;
-    private String login;
-    private String clave;
-    private boolean estado;
-    private Long idpersona;
+    private String foto;
+    private String observaciones;
+    private Boolean estado;
+    private Municipio municipio;
     private String ci;
     private String nombre;
     private String primerApellido;

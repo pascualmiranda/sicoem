@@ -25,6 +25,7 @@ public class Usuario {
     private boolean estado=true;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="persona_id")
+    @NotBlank(message = "Los datos de la persona son requerido")
     private Persona persona;
 
 }
