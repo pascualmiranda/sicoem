@@ -32,5 +32,8 @@ public class Persona {
     private String direccion;
     private String telefono;
     private String email;
-
+    @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Usuario usuario;
+    @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Cliente cliente;
 }
