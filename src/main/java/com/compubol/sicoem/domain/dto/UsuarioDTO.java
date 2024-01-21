@@ -13,7 +13,8 @@ public class UsuarioDTO {
     private String login;
     private String clave;
     private boolean estado;
-    private Long idpersona;
+    private Integer idRol;
+    private Long idPersona;
     private String ci;
     private String nombre;
     private String primerApellido;

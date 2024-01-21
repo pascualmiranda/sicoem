@@ -18,6 +18,7 @@ import java.util.Set;
 public class Municipio {
     @Id
     private Integer id;
+    @Column(unique=true)
     @NotBlank(message = "El código del municipio es requerido")
     private String codigo;
     @NotBlank(message = "El nombre del municipio es requerido")

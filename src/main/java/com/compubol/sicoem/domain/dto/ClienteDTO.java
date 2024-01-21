@@ -14,7 +14,8 @@ public class ClienteDTO {
     private String foto;
     private String observaciones;
     private Boolean estado;
-    private Municipio municipio;
+    private Integer idMunicipio;
+    private Long idPersona;
     private String ci;
     private String nombre;
     private String primerApellido;

@@ -2,9 +2,20 @@ package com.compubol.sicoem.services.mapper;
 
 import com.compubol.sicoem.domain.dto.UsuarioDTO;
 import com.compubol.sicoem.domain.entities.Persona;
+import com.compubol.sicoem.domain.entities.Rol;
 import com.compubol.sicoem.domain.entities.Usuario;
+import com.compubol.sicoem.repositories.PersonaRepository;
+import com.compubol.sicoem.repositories.RolRepository;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UsuarioMapper implements CustomMapper<UsuarioDTO, Usuario>{
+    private final RolRepository rolRepository;
+
+    public UsuarioMapper(RolRepository rolRepository) {
+        this.rolRepository = rolRepository;
+    }
+
     @Override
     public UsuarioDTO toDto(Usuario usuario) {
         UsuarioDTO usuarioDTO= new UsuarioDTO();
@@ -12,7 +23,8 @@ public class UsuarioMapper implements CustomMapper<UsuarioDTO, Usuario>{
         usuarioDTO.setLogin(usuario.getLogin());
         usuarioDTO.setClave("*******");
         usuarioDTO.setEstado(usuario.isEstado());
-        usuarioDTO.setIdpersona(usuario.getPersona().getId());
+        usuarioDTO.setIdRol(usuario.getRol().getId());
+        usuarioDTO.setIdPersona(usuario.getPersona().getId());
         usuarioDTO.setCi(usuario.getPersona().getCi());
         usuarioDTO.setNombre(usuario.getPersona().getNombre());
         usuarioDTO.setPrimerApellido(usuario.getPersona().getPrimerApellido());
@@ -27,12 +39,17 @@ public class UsuarioMapper implements CustomMapper<UsuarioDTO, Usuario>{
     @Override
     public Usuario toEntity(UsuarioDTO usuarioDTO) { //Solo para nuevo
         Usuario usuario= new Usuario();
+        Rol rol = new Rol();
         usuario.setId(usuarioDTO.getId());
         usuario.setLogin(usuarioDTO.getLogin());
         usuario.setClave(usuarioDTO.getClave());
         usuario.setEstado(usuarioDTO.isEstado());
-        Persona persona=new Persona();
-        //persona.setId(usuarioDTO.getIdpersona());
+        rol = rolRepository.findById(usuarioDTO.getIdRol()).get();
+        usuario.setRol(rol);
+        Persona persona=usuario.getPersona();
+        if (usuarioDTO.getIdPersona()!=null){
+            persona.setId(usuarioDTO.getIdPersona());
+        }
         persona.setCi(usuarioDTO.getCi());
         persona.setNombre(usuarioDTO.getNombre());
         persona.setPrimerApellido(usuarioDTO.getPrimerApellido());

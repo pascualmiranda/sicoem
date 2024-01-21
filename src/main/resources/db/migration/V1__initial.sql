@@ -1,7 +1,7 @@
 CREATE TYPE sicoem.identidad AS ENUM('M','F');
 CREATE TABLE sicoem.persona (
   id SERIAL   NOT NULL ,
-  ci VARCHAR(20)   NOT NULL ,
+  ci VARCHAR(20) UNIQUE NOT NULL ,
   nombre VARCHAR(50)   NOT NULL ,
   primerapellido VARCHAR(50)   NOT NULL ,
   segundoapellido VARCHAR(50)    ,

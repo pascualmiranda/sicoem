@@ -27,5 +27,8 @@ public class Usuario {
     @JoinColumn(name="persona_id")
     @NotBlank(message = "Los datos de la persona son requerido")
     private Persona persona;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="rol_id")
+    @NotBlank(message = "El rol es requerido")
+    private Rol rol;
 }
