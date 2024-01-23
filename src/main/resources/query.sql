@@ -4,7 +4,7 @@ CREATE SCHEMA IF NOT EXISTS sicoem;
 CREATE TYPE sicoem.identidad AS ENUM('M','F');
 CREATE TABLE sicoem.persona (
   id SERIAL   NOT NULL ,
-  ci VARCHAR(20)   NOT NULL ,
+  ci VARCHAR(20) UNIQUE NOT NULL ,
   nombre VARCHAR(50)   NOT NULL ,
   primerapellido VARCHAR(50)   NOT NULL ,
   segundoapellido VARCHAR(50)    ,
@@ -12,23 +12,67 @@ CREATE TABLE sicoem.persona (
   direccion VARCHAR(150)    ,
   telefono VARCHAR(50)    ,
   email VARCHAR(150)      ,
-PRIMARY KEY(id),
-UNIQUE(ci));
+  PRIMARY KEY(id),
+  UNIQUE(ci)
+);
+
+CREATE TABLE sicoem.rol (
+  id SERIAL  NOT NULL ,
+  codigo VARCHAR(10) UNIQUE  NOT NULL ,
+  descripcion VARCHAR(150)    ,
+  estado BOOLEAN  DEFAULT TRUE NOT NULL   ,
+PRIMARY KEY(id));
+
+CREATE TABLE sicoem.usuario (
+  id SERIAL  NOT NULL ,
+  login VARCHAR(50)   NOT NULL ,
+  clave VARCHAR(150)   NOT NULL ,
+  estado BOOLEAN  DEFAULT TRUE NOT NULL   ,
+  persona_id INTEGER   NOT NULL ,
+  rol_id INTEGER   NOT NULL ,
+PRIMARY KEY(id)  ,
+  FOREIGN KEY(persona_id)
+    REFERENCES sicoem.persona(id),
+  FOREIGN KEY(rol_id)
+    REFERENCES sicoem.rol(id));
 
 CREATE TABLE sicoem.municipio (
   id SERIAL  NOT NULL ,
-  codigo VARCHAR(6)   NOT NULL ,
+  codigo VARCHAR(6) UNIQUE  NOT NULL ,
   nombre VARCHAR(150)   NOT NULL ,
   codigodepto VARCHAR(2)      ,
 PRIMARY KEY(id));
 
+CREATE TABLE sicoem.cliente (
+  id SERIAL  NOT NULL ,
+  fecha TIMESTAMP   NOT NULL ,
+  foto VARCHAR(150)    ,
+  observaciones TEXT    ,
+  estado BOOLEAN  DEFAULT TRUE NOT NULL   ,
+  persona_id INTEGER   NOT NULL ,
+  municipio_id INTEGER   NOT NULL ,
+PRIMARY KEY(id)    ,
+  FOREIGN KEY(persona_id)
+    REFERENCES sicoem.persona(id),
+  FOREIGN KEY(municipio_id)
+    REFERENCES sicoem.municipio(id));
+
+CREATE TABLE sicoem.historial (
+  id SERIAL  NOT NULL ,
+  nombre VARCHAR(150) NOT NULL ,
+  descripcion TEXT    ,
+  fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL ,
+  estado BOOLEAN  DEFAULT TRUE NOT NULL   ,
+  cliente_id INTEGER   NOT NULL ,
+PRIMARY KEY(id)  ,
+  FOREIGN KEY(cliente_id)
+    REFERENCES sicoem.cliente(id));
 
 CREATE TABLE sicoem.medida (
   id SERIAL  NOT NULL ,
-  codigo VARCHAR(5)   NOT NULL ,
-  nombre VARCHAR(150)      ,
+  codigo VARCHAR(5) UNIQUE NOT NULL ,
+  nombre VARCHAR(150) ,
 PRIMARY KEY(id));
-
 
 CREATE TABLE sicoem.categoria (
   id SERIAL  NOT NULL ,
@@ -53,28 +97,6 @@ CREATE TABLE sicoem.capital (
   hasta numeric(10,2)  NOT NULL ,
   estado BOOLEAN  DEFAULT TRUE NOT NULL   ,
 PRIMARY KEY(id));
-
-
-CREATE TABLE sicoem.usuario (
-  id SERIAL  NOT NULL ,
-  persona_id INTEGER   NOT NULL ,
-  login VARCHAR(50)   NOT NULL ,
-  clave VARCHAR(150)   NOT NULL ,
-  estado BOOLEAN  DEFAULT TRUE NOT NULL   ,
-PRIMARY KEY(id)  ,
-  FOREIGN KEY(persona_id)
-    REFERENCES sicoem.persona(id));
-
-
-CREATE TABLE sicoem.rol (
-  id SERIAL  NOT NULL ,
-  usuario_id INTEGER   NOT NULL ,
-  nombre VARCHAR(100)   NOT NULL ,
-  descripcion VARCHAR(250)    ,
-  estado BOOLEAN  DEFAULT TRUE NOT NULL   ,
-PRIMARY KEY(idl)  ,
-  FOREIGN KEY(usuario_id)
-    REFERENCES sicoem.usuario(id));
 
 CREATE TABLE sicoem.interes (
   id SERIAL  NOT NULL ,
@@ -110,21 +132,6 @@ CREATE TABLE sicoem.arqueo (
 PRIMARY KEY(id)  ,
   FOREIGN KEY(usuario_id)
     REFERENCES sicoem.usuario(id));
-
-
-CREATE TABLE sicoem.cliente (
-  id SERIAL  NOT NULL ,
-  municipio_id INTEGER   NOT NULL ,
-  persona_id INTEGER   NOT NULL ,
-  fecha TIMESTAMP   NOT NULL ,
-  foto VARCHAR(150)    ,
-  observaciones TEXT    ,
-  estado BOOLEAN  DEFAULT TRUE NOT NULL   ,
-PRIMARY KEY(id)    ,
-  FOREIGN KEY(persona_id)
-    REFERENCES sicoem.persona(id),
-  FOREIGN KEY(municipio_id)
-    REFERENCES sicoem.municipio(id));
 
 CREATE TABLE sicoem.empeno (
   id SERIAL  NOT NULL ,
@@ -162,17 +169,6 @@ PRIMARY KEY(id)      ,
   FOREIGN KEY(medida_id)
     REFERENCES sicoem.medida(id));
 
-
-CREATE TABLE sicoem.historial (
-  id SERIAL  NOT NULL ,
-  cliente_id INTEGER   NOT NULL ,
-  nombre VARCHAR(150)   NOT NULL ,
-  descripcion TEXT    ,
-  fecha TIMESTAMP   NOT NULL ,
-  estado BOOLEAN  DEFAULT TRUE NOT NULL   ,
-PRIMARY KEY(id)  ,
-  FOREIGN KEY(cliente_id)
-    REFERENCES sicoem.cliente(id));
 
 CREATE TABLE sicoem.movimiento (
   id SERIAL   NOT NULL ,
