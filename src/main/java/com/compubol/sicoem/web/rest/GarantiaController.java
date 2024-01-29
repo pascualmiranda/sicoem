@@ -1,7 +1,6 @@
 package com.compubol.sicoem.web.rest;
 
 import com.compubol.sicoem.domain.dto.GarantiaDTO;
-import com.compubol.sicoem.domain.dto.HistorialDTO;
 import com.compubol.sicoem.services.GarantiaService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
