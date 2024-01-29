@@ -81,6 +81,27 @@ CREATE TABLE sicoem.categoria (
   estado BOOLEAN  DEFAULT TRUE NOT NULL   ,
 PRIMARY KEY(id));
 
+CREATE TABLE sicoem.garantia (
+  id SERIAL  NOT NULL ,
+  medida_id INTEGER   NOT NULL ,
+  categoria_id INTEGER   NOT NULL ,
+  cliente_id INTEGER   NOT NULL ,
+  nombre VARCHAR(150)   NOT NULL ,
+  descripcion VARCHAR(250)    ,
+  fecha TIMESTAMP  DEFAULT CURRENT_TIMESTAMP NOT NULL ,
+  estado BOOLEAN  DEFAULT TRUE NOT NULL ,
+  cantidad numeric(10,2)  DEFAULT 1 NOT NULL ,
+  valor numeric(10,2)   NOT NULL ,
+  condicion VARCHAR(50)   NOT NULL   ,
+PRIMARY KEY(id)      ,
+  FOREIGN KEY(cliente_id)
+    REFERENCES sicoem.cliente(id),
+  FOREIGN KEY(categoria_id)
+    REFERENCES sicoem.categoria(id),
+  FOREIGN KEY(medida_id)
+    REFERENCES sicoem.medida(id));
+
+
 
 CREATE TABLE sicoem.tipomovimiento (
   id SERIAL  NOT NULL ,
@@ -148,26 +169,6 @@ PRIMARY KEY(id)    ,
     REFERENCES sicoem.cliente(id),
   FOREIGN KEY(capital_id)
     REFERENCES sicoem.capital(id));
-
-CREATE TABLE sicoem.garantia (
-  id SERIAL  NOT NULL ,
-  medida_id INTEGER   NOT NULL ,
-  categoria_id INTEGER   NOT NULL ,
-  cliente_id INTEGER   NOT NULL ,
-  nombre VARCHAR(150)   NOT NULL ,
-  descripcion VARCHAR(250)    ,
-  fecha TIMESTAMP  DEFAULT CURRENT_TIMESTAMP NOT NULL ,
-  estado BOOLEAN  DEFAULT TRUE NOT NULL ,
-  cantidad numeric(10,2)  DEFAULT 1 NOT NULL ,
-  valor numeric(10,2)   NOT NULL ,
-  condicion VARCHAR(50)   NOT NULL   ,
-PRIMARY KEY(id)      ,
-  FOREIGN KEY(cliente_id)
-    REFERENCES sicoem.cliente(id),
-  FOREIGN KEY(categoria_id)
-    REFERENCES sicoem.categoria(id),
-  FOREIGN KEY(medida_id)
-    REFERENCES sicoem.medida(id));
 
 
 CREATE TABLE sicoem.movimiento (
