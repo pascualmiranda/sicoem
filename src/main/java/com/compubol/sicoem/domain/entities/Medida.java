@@ -1,14 +1,13 @@
 package com.compubol.sicoem.domain.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Getter
 @Setter
@@ -23,4 +22,6 @@ public class Medida {
     @NotBlank(message = "El código del de la medida es requerido")
     private String codigo;
     private String nombre;
+    @OneToMany(mappedBy = "medida", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Garantia> garantias;
 }

@@ -34,4 +34,6 @@ public class Cliente {
     private Municipio municipio;
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Historial> historiales;
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Garantia> garantias;
 }
