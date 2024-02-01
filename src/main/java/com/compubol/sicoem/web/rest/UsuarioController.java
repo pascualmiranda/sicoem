@@ -26,7 +26,7 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<UsuarioDTO> create(@Valid @RequestBody final UsuarioDTO usuarioDTO) throws URISyntaxException {
         UsuarioDTO usuarioDB=usuarioService.save(usuarioDTO);
-        return ResponseEntity.created(new URI("v1/usuarios"+usuarioDB.getId())).body(usuarioDB);
+        return ResponseEntity.created(new URI("v1/usuarios/"+usuarioDB.getId())).body(usuarioDB);
     }
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioDTO> getUsuarioById(@PathVariable final Long id){
@@ -41,6 +41,6 @@ public class UsuarioController {
             throw new IllegalArgumentException("Para esta operación se requiere un id.");
         }
         UsuarioDTO usuarioDB=usuarioService.save(usuarioDTO);
-        return ResponseEntity.created(new URI("v1/usuarios"+usuarioDB.getId())).body(usuarioDB);
+        return ResponseEntity.created(new URI("v1/usuarios/"+usuarioDB.getId())).body(usuarioDB);
     }
 }

@@ -26,7 +26,7 @@ public class ClienteController {
     @PostMapping
     public ResponseEntity<ClienteDTO> create(@Valid @RequestBody final ClienteDTO clienteDTO) throws URISyntaxException {
         ClienteDTO clienteDB=clienteService.save(clienteDTO);
-        return ResponseEntity.created(new URI("v1/clientes"+clienteDB.getId())).body(clienteDB);
+        return ResponseEntity.created(new URI("v1/clientes/"+clienteDB.getId())).body(clienteDB);
     }
     @GetMapping("/{id}")
     public ResponseEntity<ClienteDTO> getClienteById(@PathVariable final Long id){
@@ -40,6 +40,6 @@ public class ClienteController {
             throw new IllegalArgumentException("Para esta operación se requiere un id.");
         }
         ClienteDTO clienteDB=clienteService.save(clienteDTO);
-        return ResponseEntity.created(new URI("v1/clientes"+clienteDB.getId())).body(clienteDB);
+        return ResponseEntity.created(new URI("v1/clientes/"+clienteDB.getId())).body(clienteDB);
     }
 }

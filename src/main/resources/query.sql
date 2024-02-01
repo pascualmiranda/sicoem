@@ -82,34 +82,24 @@ CREATE TABLE sicoem.categoria (
 PRIMARY KEY(id));
 
 CREATE TABLE sicoem.garantia (
-  id SERIAL  NOT NULL ,
-  medida_id INTEGER   NOT NULL ,
-  categoria_id INTEGER   NOT NULL ,
-  cliente_id INTEGER   NOT NULL ,
-  nombre VARCHAR(150)   NOT NULL ,
-  descripcion VARCHAR(250)    ,
-  fecha TIMESTAMP  DEFAULT CURRENT_TIMESTAMP NOT NULL ,
-  estado BOOLEAN  DEFAULT TRUE NOT NULL ,
-  cantidad numeric(10,2)  DEFAULT 1 NOT NULL ,
-  valor numeric(10,2)   NOT NULL ,
-  condicion VARCHAR(50)   NOT NULL   ,
-PRIMARY KEY(id)      ,
-  FOREIGN KEY(cliente_id)
-    REFERENCES sicoem.cliente(id),
-  FOREIGN KEY(categoria_id)
-    REFERENCES sicoem.categoria(id),
-  FOREIGN KEY(medida_id)
-    REFERENCES sicoem.medida(id));
-
-
-
-CREATE TABLE sicoem.tipomovimiento (
-  id SERIAL  NOT NULL ,
-  nombres VARCHAR(50)   NOT NULL ,
-  descripcion VARCHAR(250)    ,
-  estado BOOLEAN  DEFAULT TRUE NOT NULL   ,
-PRIMARY KEY(id));
-
+  id SERIAL  NOT NULL,
+  nombre VARCHAR(150) NOT NULL,
+  descripcion VARCHAR(250),
+  cantidad numeric(10,2) DEFAULT 1 NOT NULL,
+  valor numeric(10,2) NOT NULL,
+  condicion VARCHAR(50) NOT NULL,
+  fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  estado BOOLEAN DEFAULT TRUE NOT NULL,
+  medida_id INTEGER NOT NULL,
+  categoria_id INTEGER NOT NULL,
+  cliente_id INTEGER NOT NULL,
+PRIMARY KEY(id),
+    FOREIGN KEY(medida_id)
+        REFERENCES sicoem.medida(id),
+    FOREIGN KEY(categoria_id)
+        REFERENCES sicoem.categoria(id),
+    FOREIGN KEY(cliente_id)
+        REFERENCES sicoem.cliente(id));
 
 CREATE TABLE sicoem.capital (
   id SERIAL  NOT NULL ,
@@ -121,45 +111,20 @@ PRIMARY KEY(id));
 
 CREATE TABLE sicoem.interes (
   id SERIAL  NOT NULL ,
-  capital_id INTEGER   NOT NULL ,
   interes numeric(5,2)   NOT NULL ,
   diadesde INTEGER   NOT NULL ,
   diahasta INTEGER   NOT NULL   ,
+  capital_id INTEGER   NOT NULL ,
 PRIMARY KEY(id)  ,
   FOREIGN KEY(capital_id)
     REFERENCES sicoem.capital(id));
-
-
-CREATE TABLE sicoem.bitacora (
-  id SERIAL  NOT NULL ,
-  usuario_id INTEGER   NOT NULL ,
-  fecha TIMESTAMP  DEFAULT CURRENT_TIMESTAMP NOT NULL ,
-  operacion VARCHAR(50)   NOT NULL ,
-  tabla VARCHAR(50)    ,
-  registro_id INTEGER    ,
-  referencia VARCHAR(150)    ,
-  descripcion VARCHAR(250)      ,
-PRIMARY KEY(id)  ,
-  FOREIGN KEY(usuario_id)
-    REFERENCES sicoem.usuario(id));
-
-
-CREATE TABLE sicoem.arqueo (
-  id SERIAL  NOT NULL ,
-  usuario_id INTEGER   NOT NULL ,
-  fecha TIMESTAMP   NOT NULL ,
-  saldo numeric(10,2)  DEFAULT 0 NOT NULL ,
-  estado BOOLEAN  DEFAULT TRUE NOT NULL   ,
-PRIMARY KEY(id)  ,
-  FOREIGN KEY(usuario_id)
-    REFERENCES sicoem.usuario(id));
 
 CREATE TABLE sicoem.empeno (
   id SERIAL  NOT NULL ,
   capital_id INTEGER   NOT NULL ,
   cliente_id INTEGER   NOT NULL ,
   monto numeric(10,2)   NOT NULL ,
-  fecha TIMESTAMP   NOT NULL ,
+  fecha TIMESTAMP  DEFAULT CURRENT_TIMESTAMP NOT NULL ,
   observacion TEXT    ,
   estado BOOLEAN  DEFAULT TRUE NOT NULL ,
   fecha_plazo DATE   NOT NULL ,
@@ -170,6 +135,12 @@ PRIMARY KEY(id)    ,
   FOREIGN KEY(capital_id)
     REFERENCES sicoem.capital(id));
 
+CREATE TABLE sicoem.tipomovimiento (
+  id SERIAL  NOT NULL ,
+  nombres VARCHAR(50)   NOT NULL ,
+  descripcion VARCHAR(250)    ,
+  estado BOOLEAN  DEFAULT TRUE NOT NULL   ,
+PRIMARY KEY(id));
 
 CREATE TABLE sicoem.movimiento (
   id SERIAL   NOT NULL ,
@@ -187,3 +158,27 @@ PRIMARY KEY(id)    ,
     REFERENCES sicoem.tipomovimiento(id),
   FOREIGN KEY(empeno_id)
     REFERENCES sicoem.empeno(id));
+
+CREATE TABLE sicoem.bitacora (
+  id SERIAL  NOT NULL ,
+  usuario_id INTEGER   NOT NULL ,
+  fecha TIMESTAMP  DEFAULT CURRENT_TIMESTAMP NOT NULL ,
+  operacion VARCHAR(50)   NOT NULL ,
+  tabla VARCHAR(50)    ,
+  registro_id INTEGER    ,
+  referencia VARCHAR(150)    ,
+  descripcion VARCHAR(250)      ,
+PRIMARY KEY(id)  ,
+  FOREIGN KEY(usuario_id)
+    REFERENCES sicoem.usuario(id));
+
+CREATE TABLE sicoem.arqueo (
+  id SERIAL  NOT NULL ,
+  usuario_id INTEGER   NOT NULL ,
+  fecha TIMESTAMP   NOT NULL ,
+  saldo numeric(10,2)  DEFAULT 0 NOT NULL ,
+  estado BOOLEAN  DEFAULT TRUE NOT NULL   ,
+PRIMARY KEY(id)  ,
+  FOREIGN KEY(usuario_id)
+    REFERENCES sicoem.usuario(id));
+

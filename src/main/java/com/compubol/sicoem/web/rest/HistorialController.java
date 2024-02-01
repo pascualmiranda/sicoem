@@ -25,7 +25,7 @@ public class HistorialController {
     @PostMapping
     public ResponseEntity<HistorialDTO> create(@Valid @RequestBody final HistorialDTO historialDTO) throws URISyntaxException {
         HistorialDTO historialDB=historialService.save(historialDTO);
-        return ResponseEntity.created(new URI("v1/historiales"+historialDB.getId())).body(historialDB);
+        return ResponseEntity.created(new URI("v1/historiales/"+historialDB.getId())).body(historialDB);
     }
     @PutMapping("/{id}")
     public ResponseEntity<HistorialDTO> editHistorial(@Valid @RequestBody final HistorialDTO historialDTO) throws URISyntaxException {
@@ -33,7 +33,7 @@ public class HistorialController {
             throw new IllegalArgumentException("Para esta operación se requiere un id.");
         }
         HistorialDTO historialDB=historialService.save(historialDTO);
-        return ResponseEntity.created(new URI("v1/historiales"+historialDB.getId())).body(historialDB);
+        return ResponseEntity.created(new URI("v1/historiales/"+historialDB.getId())).body(historialDB);
     }
     @GetMapping("/{id}")
     public ResponseEntity<HistorialDTO> getHistorialById(@PathVariable final Long id){

@@ -43,13 +43,13 @@ public class GarantiaMapper implements CustomMapper<GarantiaDTO, Garantia>{
         Garantia garantia = new Garantia();
         if (garantiaDTO.getId()!=null){
             garantia = garantiaRepository.findById(garantiaDTO.getId()).get();
+            garantia.setEstado(garantiaDTO.getEstado());
         }
         garantia.setNombre(garantiaDTO.getNombre());
         garantia.setDescripcion(garantiaDTO.getDescripcion());
         garantia.setCantidad(garantiaDTO.getCantidad());
         garantia.setValor(garantiaDTO.getValor());
         garantia.setCondicion(garantiaDTO.getCondicion());
-        garantia.setEstado(garantiaDTO.getEstado());
         garantia.setMedida(medidaRepository.findById(garantiaDTO.getIdMedida()).get());
         garantia.setCategoria(categoriaRepository.findById(garantiaDTO.getIdCategoria()).get());
         garantia.setCliente(clienteRepository.findById(garantiaDTO.getIdCliente()).get());

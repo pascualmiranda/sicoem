@@ -1,6 +1,6 @@
 CREATE TABLE sicoem.cliente (
   id SERIAL  NOT NULL ,
-  fecha TIMESTAMP   NOT NULL ,
+  fecha TIMESTAMP  DEFAULT CURRENT_TIMESTAMP NOT NULL ,
   foto VARCHAR(150)    ,
   observaciones TEXT    ,
   estado BOOLEAN  DEFAULT TRUE NOT NULL   ,

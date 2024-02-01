@@ -36,4 +36,6 @@ public class Cliente {
     private Set<Historial> historiales;
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Garantia> garantias;
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Empeno> empenos;
 }
