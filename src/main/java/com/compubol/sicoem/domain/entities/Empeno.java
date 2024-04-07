@@ -10,6 +10,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -41,4 +43,6 @@ public class Empeno {
     @NotBlank(message = "El cliente para el empeño es requerido")
     @JoinColumn(name="cliente_id")
     private Cliente cliente;
+    @OneToMany(mappedBy = "empeno", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Movimiento> movimientos;
 }

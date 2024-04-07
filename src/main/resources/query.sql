@@ -137,15 +137,13 @@ PRIMARY KEY(id)    ,
 
 CREATE TABLE sicoem.tipomovimiento (
   id SERIAL  NOT NULL ,
-  nombres VARCHAR(50)   NOT NULL ,
+  nombre VARCHAR(50)   NOT NULL ,
   descripcion VARCHAR(250)    ,
   estado BOOLEAN  DEFAULT TRUE NOT NULL   ,
 PRIMARY KEY(id));
 
 CREATE TABLE sicoem.movimiento (
   id SERIAL   NOT NULL ,
-  empeno_id INTEGER    ,
-  tiposmov_id INTEGER   NOT NULL ,
   fecha TIMESTAMP  DEFAULT CURRENT_TIMESTAMP NOT NULL ,
   cantidad numeric(10,2)  DEFAULT 0 NOT NULL ,
   referencia VARCHAR(150)    ,
@@ -153,11 +151,24 @@ CREATE TABLE sicoem.movimiento (
   descripcion VARCHAR(250)    ,
   tipo VARCHAR(50)    ,
   estado BOOLEAN  DEFAULT TRUE NOT NULL   ,
+  tipomov_id INTEGER   NOT NULL ,
+  empeno_id INTEGER    ,
 PRIMARY KEY(id)    ,
-  FOREIGN KEY(tiposmov_id)
+  FOREIGN KEY(tipomov_id)
     REFERENCES sicoem.tipomovimiento(id),
   FOREIGN KEY(empeno_id)
     REFERENCES sicoem.empeno(id));
+
+
+CREATE TABLE sicoem.arqueo (
+  id SERIAL  NOT NULL ,
+  usuario_id INTEGER   NOT NULL ,
+  fecha TIMESTAMP   NOT NULL ,
+  saldo numeric(10,2)  DEFAULT 0 NOT NULL ,
+  estado BOOLEAN  DEFAULT TRUE NOT NULL   ,
+PRIMARY KEY(id)  ,
+  FOREIGN KEY(usuario_id)
+    REFERENCES sicoem.usuario(id));
 
 CREATE TABLE sicoem.bitacora (
   id SERIAL  NOT NULL ,
@@ -168,16 +179,6 @@ CREATE TABLE sicoem.bitacora (
   registro_id INTEGER    ,
   referencia VARCHAR(150)    ,
   descripcion VARCHAR(250)      ,
-PRIMARY KEY(id)  ,
-  FOREIGN KEY(usuario_id)
-    REFERENCES sicoem.usuario(id));
-
-CREATE TABLE sicoem.arqueo (
-  id SERIAL  NOT NULL ,
-  usuario_id INTEGER   NOT NULL ,
-  fecha TIMESTAMP   NOT NULL ,
-  saldo numeric(10,2)  DEFAULT 0 NOT NULL ,
-  estado BOOLEAN  DEFAULT TRUE NOT NULL   ,
 PRIMARY KEY(id)  ,
   FOREIGN KEY(usuario_id)
     REFERENCES sicoem.usuario(id));
