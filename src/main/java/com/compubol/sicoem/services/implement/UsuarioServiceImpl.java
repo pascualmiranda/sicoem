@@ -45,7 +45,9 @@ public class UsuarioServiceImpl implements UsuarioService {
         BCryptPasswordEncoder bCrypt=new BCryptPasswordEncoder();
         String pwd;
         if (usuarioDTO.getId()!=null && usuarioRepository.existsById(usuarioDTO.getId())){ //Edit
-            persona=personaRepository.findById(usuarioDTO.getIdPersona()).get();
+            usuario=usuarioRepository.findById(usuarioDTO.getId()).get();
+            persona=usuario.getPersona();
+            //persona=personaRepository.findById(usuarioDTO.getIdPersona()).get();
             persona.setCi(usuarioDTO.getCi());
             persona.setNombre(usuarioDTO.getNombre());
             persona.setPrimerApellido(usuarioDTO.getPrimerApellido());
@@ -55,8 +57,8 @@ public class UsuarioServiceImpl implements UsuarioService {
             persona.setTelefono(usuarioDTO.getTelefono());
             persona.setEmail(usuarioDTO.getEmail());
             personaRepository.save(persona);
-            usuario=persona.getUsuario();
-            usuario.setId(usuarioDTO.getId());
+            //usuario=persona.getUsuario();
+            //usuario.setId(usuarioDTO.getId());
             usuario.setLogin(usuarioDTO.getLogin());
             pwd=usuario.getClave();
             if (usuarioDTO.getClave()!=null && !usuarioDTO.getClave().isBlank()) {
@@ -66,7 +68,7 @@ public class UsuarioServiceImpl implements UsuarioService {
             usuario.setClave(pwd);
             usuario.setEstado(usuarioDTO.isEstado());
             usuario.setPersona(persona);
-            usuario.setRol(rolRepository.findById(usuarioDTO.getIdRol()).get());
+            usuario.setRole(rolRepository.findById(usuarioDTO.getIdRol()).get());
             usuarioRepository.save(usuario);
         }
         else{//Nuevo
@@ -82,13 +84,13 @@ public class UsuarioServiceImpl implements UsuarioService {
             persona.setTelefono(usuarioDTO.getTelefono());
             persona.setEmail(usuarioDTO.getEmail());
             personaRepository.save(persona);
-            usuario=persona.getUsuario();
+            //usuario=persona.getUsuario();
             usuario.setLogin(usuarioDTO.getLogin());
             pwd=bCrypt.encode(usuarioDTO.getClave());
             usuario.setClave(pwd);
             usuario.setEstado(usuarioDTO.isEstado());
-            usuario.setPersona(persona);
-            usuario.setRol(rolRepository.findById(usuarioDTO.getIdRol()).get());
+             usuario.setPersona(persona);
+            usuario.setRole(rolRepository.findById(usuarioDTO.getIdRol()).get());
             usuarioRepository.save(usuario);
         }
         return usuarioMapper.toDto(usuario);

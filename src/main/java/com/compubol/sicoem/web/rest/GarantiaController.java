@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("v1/garantias")
@@ -28,10 +29,14 @@ public class GarantiaController {
         return ResponseEntity.created(new URI("v1/garantias/"+garantiaDB.getId())).body(garantiaDB);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<GarantiaDTO> editGarantia(@Valid @RequestBody final GarantiaDTO garantiaDTO) throws URISyntaxException {
+    public ResponseEntity<GarantiaDTO> editGarantia(@Valid @RequestBody final GarantiaDTO garantiaDTO, @PathVariable final Long id) throws URISyntaxException {
         if(garantiaDTO.getId()==null){
             throw new IllegalArgumentException("Para esta operación se requiere un id.");
         }
+        if (!Objects.equals(garantiaDTO.getId(), id)) {
+            throw new IllegalArgumentException("Id no valido");
+        }
+        garantiaDTO.setId(id);
         GarantiaDTO garantiaDB=garantiaService.save(garantiaDTO);
         return ResponseEntity.created(new URI("v1/garantias/"+garantiaDB.getId())).body(garantiaDB);
     }

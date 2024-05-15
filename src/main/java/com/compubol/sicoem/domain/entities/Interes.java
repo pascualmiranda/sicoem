@@ -16,14 +16,14 @@ import lombok.Setter;
 public class Interes {
     @Id
     private Integer id;
-    @NotBlank(message = "El interes diario es requerido")
+    //@NotBlank(message = "El interes diario es requerido")
     private Double interes;
-    @NotBlank(message = "El dia desde es requerido")
+    //@NotBlank(message = "El dia desde es requerido")
     private Integer diadesde;
-    @NotBlank(message = "El dia hasta es requerido")
+    //@NotBlank(message = "El dia hasta es requerido")
     private Integer dishasta;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="capital_id")
-    @NotBlank(message = "El capital es requerido")
+    //@NotBlank(message = "El capital es requerido")
     private Capital capital;
 }

@@ -26,19 +26,23 @@ public class EmpenoServiceImpl implements EmpenoService {
 
     @Override
     public List<EmpenoDTO> listEmpenosByIdCliente(Long idCliente) {
-        if(clienteRepository.existsById(idCliente)) {
+        return empenoRepository.findByIdCliente(idCliente)
+                .stream()
+                .map(empenoMapper::toDto).collect(Collectors.toList());
+        /*if(clienteRepository.existsById(idCliente)) {
             return clienteRepository.findById(idCliente).get().getEmpenos()
                     .stream()
                     .map(empenoMapper::toDto).collect(Collectors.toList());
         }
         else{
             return null;
-        }
+        }*/
     }
 
     @Override
     @Transactional
     public EmpenoDTO save(EmpenoDTO empenoDTO) {
+
         return empenoMapper.toDto(empenoRepository.save(empenoMapper.toEntity(empenoDTO)));
     }
 

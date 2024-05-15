@@ -7,6 +7,8 @@ import com.compubol.sicoem.repositories.MovimientoRepository;
 import com.compubol.sicoem.repositories.TipoMovimientoRepository;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 public class MovimientoMapper implements CustomMapper<MovimientoDTO, Movimiento>{
     private final MovimientoRepository movimientoRepository;
@@ -42,7 +44,7 @@ public class MovimientoMapper implements CustomMapper<MovimientoDTO, Movimiento>
         if(movimientoDTO.getId()!=null){ //Solo si es edición
             movimiento=movimientoRepository.findById(movimientoDTO.getId()).get();
             movimiento.setEstado(movimientoDTO.getEstado());
-            movimiento.setFecha(movimientoDTO.getFecha());
+            movimiento.setFecha(LocalDateTime.now());
         }
         movimiento.setCantidad(movimientoDTO.getCantidad());
         movimiento.setReferencia(movimientoDTO.getReferencia());
