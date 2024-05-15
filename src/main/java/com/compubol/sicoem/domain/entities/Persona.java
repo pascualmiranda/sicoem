@@ -15,6 +15,7 @@ import lombok.Setter;
 @Table(name="persona")
 public class Persona {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique=true)
     @NotBlank(message = "El carnet de identidad es requerido")
@@ -26,8 +27,7 @@ public class Persona {
     private  String primerApellido;
     @Column(name = "segundoapellido")
     private  String segundoApellido;
-    @Enumerated(EnumType.ORDINAL)
-    @NotBlank(message = "El género es requerido")
+    @Enumerated(EnumType.STRING)
     private Identidad genero;
     private String direccion;
     private String telefono;

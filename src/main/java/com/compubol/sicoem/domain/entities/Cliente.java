@@ -18,6 +18,7 @@ import java.util.Set;
 @Table(name="cliente")
 public class Cliente {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long id;
     @Column(columnDefinition = "TIMESTAMP", nullable = false, updatable = false)
     @CreationTimestamp

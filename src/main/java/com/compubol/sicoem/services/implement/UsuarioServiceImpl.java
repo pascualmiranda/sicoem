@@ -8,6 +8,7 @@ import com.compubol.sicoem.repositories.RolRepository;
 import com.compubol.sicoem.repositories.UsuarioRepository;
 import com.compubol.sicoem.services.UsuarioService;
 import com.compubol.sicoem.services.mapper.UsuarioMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,8 +42,12 @@ public class UsuarioServiceImpl implements UsuarioService {
     public UsuarioDTO save(UsuarioDTO usuarioDTO) {
         Usuario usuario=new Usuario();
         Persona persona=new Persona();
+        BCryptPasswordEncoder bCrypt=new BCryptPasswordEncoder();
+        String pwd;
         if (usuarioDTO.getId()!=null && usuarioRepository.existsById(usuarioDTO.getId())){ //Edit
-            persona=personaRepository.findById(usuarioDTO.getIdPersona()).get();
+            usuario=usuarioRepository.findById(usuarioDTO.getId()).get();
+            persona=usuario.getPersona();
+            //persona=personaRepository.findById(usuarioDTO.getIdPersona()).get();
             persona.setCi(usuarioDTO.getCi());
             persona.setNombre(usuarioDTO.getNombre());
             persona.setPrimerApellido(usuarioDTO.getPrimerApellido());
@@ -52,17 +57,18 @@ public class UsuarioServiceImpl implements UsuarioService {
             persona.setTelefono(usuarioDTO.getTelefono());
             persona.setEmail(usuarioDTO.getEmail());
             personaRepository.save(persona);
-            usuario=persona.getUsuario();
-            usuario.setId(usuarioDTO.getId());
+            //usuario=persona.getUsuario();
+            //usuario.setId(usuarioDTO.getId());
             usuario.setLogin(usuarioDTO.getLogin());
-            String pwd=usuario.getClave();
+            pwd=usuario.getClave();
             if (usuarioDTO.getClave()!=null && !usuarioDTO.getClave().isBlank()) {
-                pwd=usuarioDTO.getClave();
+                pwd=bCrypt.encode(usuarioDTO.getClave());
+                //pwd=usuarioDTO.getClave();
             }
             usuario.setClave(pwd);
             usuario.setEstado(usuarioDTO.isEstado());
             usuario.setPersona(persona);
-            usuario.setRol(rolRepository.findById(usuarioDTO.getIdRol()).get());
+            usuario.setRole(rolRepository.findById(usuarioDTO.getIdRol()).get());
             usuarioRepository.save(usuario);
         }
         else{//Nuevo
@@ -78,12 +84,13 @@ public class UsuarioServiceImpl implements UsuarioService {
             persona.setTelefono(usuarioDTO.getTelefono());
             persona.setEmail(usuarioDTO.getEmail());
             personaRepository.save(persona);
-            usuario=persona.getUsuario();
+            //usuario=persona.getUsuario();
             usuario.setLogin(usuarioDTO.getLogin());
-            usuario.setClave(usuarioDTO.getClave());
+            pwd=bCrypt.encode(usuarioDTO.getClave());
+            usuario.setClave(pwd);
             usuario.setEstado(usuarioDTO.isEstado());
-            usuario.setPersona(persona);
-            usuario.setRol(rolRepository.findById(usuarioDTO.getIdRol()).get());
+             usuario.setPersona(persona);
+            usuario.setRole(rolRepository.findById(usuarioDTO.getIdRol()).get());
             usuarioRepository.save(usuario);
         }
         return usuarioMapper.toDto(usuario);

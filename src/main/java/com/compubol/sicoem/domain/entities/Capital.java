@@ -18,16 +18,17 @@ import java.util.Set;
 public class Capital {
     @Id
     private Integer id;
-    @NotBlank(message = "El interes del capital es requerido")
+    //@NotBlank(message = "El interes del capital es requerido")
     private Double interes;
-    @NotBlank(message = "El rango desde del capital es requerido")
+    //@NotBlank(message = "El rango desde del capital es requerido")
     private Double desde;
-    @NotBlank(message = "El rango hasta del capital es requerido")
+    //@NotBlank(message = "El rango hasta del capital es requerido")
     private Double hasta;
-    @Column(columnDefinition = "boolean default true", nullable = false)
+    //@Column(columnDefinition = "boolean default true", nullable = false)
     private Boolean estado=true;
     @OneToMany(mappedBy = "capital", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Interes> intereses;
     @OneToMany(mappedBy = "capital", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Empeno> empenos;
+
 }

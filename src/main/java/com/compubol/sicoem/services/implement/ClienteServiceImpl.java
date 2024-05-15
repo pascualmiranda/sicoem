@@ -41,21 +41,31 @@ public class ClienteServiceImpl implements ClienteService {
         Cliente cliente=new Cliente();
         Persona persona=new Persona();
         if (clienteDTO.getId()!=null && clienteRepository.existsById(clienteDTO.getId())){ //Edit
-            persona=personaRepository.findById(clienteDTO.getIdPersona()).get();
+            cliente=clienteRepository.findById(clienteDTO.getId()).get();
+            persona=cliente.getPersona();
+            //persona=personaRepository.findById(clienteDTO.getIdPersona()).get();
             persona.setCi(clienteDTO.getCi());
             persona.setNombre(clienteDTO.getNombre());
             persona.setPrimerApellido(clienteDTO.getPrimerApellido());
-            persona.setSegundoApellido(clienteDTO.getSegundoApellido());
+            if (clienteDTO.getSegundoApellido()!=null){
+                persona.setSegundoApellido(clienteDTO.getSegundoApellido());
+            }
             persona.setGenero(clienteDTO.getGenero());
             persona.setDireccion(clienteDTO.getDireccion());
             persona.setTelefono(clienteDTO.getTelefono());
             persona.setEmail(clienteDTO.getEmail());
             personaRepository.save(persona);
-            cliente=persona.getCliente();
-            cliente.setId(clienteDTO.getId());
-            cliente.setFoto(clienteDTO.getFoto());
-            cliente.setObservaciones(clienteDTO.getObservaciones());
-            cliente.setEstado(clienteDTO.getEstado());
+            //cliente=persona.getCliente();
+            //cliente.setId(clienteDTO.getId());
+            if(clienteDTO.getFoto()!=null){
+                cliente.setFoto(clienteDTO.getFoto());
+            }
+            if(clienteDTO.getObservaciones()!=null){
+                cliente.setObservaciones(clienteDTO.getObservaciones());
+            }
+            if(clienteDTO.getEstado()!=null){
+                cliente.setEstado(clienteDTO.getEstado());
+            }
             cliente.setMunicipio(municipioRepository.findById(clienteDTO.getIdMunicipio()).get());
             cliente.setPersona(persona);
             clienteRepository.save(cliente);
@@ -73,10 +83,16 @@ public class ClienteServiceImpl implements ClienteService {
             persona.setTelefono(clienteDTO.getTelefono());
             persona.setEmail(clienteDTO.getEmail());
             personaRepository.save(persona);
-            cliente=persona.getCliente();
-            cliente.setFoto(clienteDTO.getFoto());
-            cliente.setObservaciones(clienteDTO.getObservaciones());
-            cliente.setEstado(clienteDTO.getEstado());
+            //cliente=persona.getCliente();
+            if (clienteDTO.getFoto()!=null){
+                cliente.setFoto(clienteDTO.getFoto());
+            }
+            if (clienteDTO.getObservaciones()!=null){
+                cliente.setObservaciones(clienteDTO.getObservaciones());
+            }
+            if (clienteDTO.getEstado()!=null){
+                cliente.setEstado(clienteDTO.getEstado());
+            }
             cliente.setMunicipio(municipioRepository.findById(clienteDTO.getIdMunicipio()).get());
             cliente.setPersona(persona);
             clienteRepository.save(cliente);

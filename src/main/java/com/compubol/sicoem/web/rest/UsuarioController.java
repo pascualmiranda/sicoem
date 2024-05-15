@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("v1/usuarios")
@@ -36,10 +37,16 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> editUsuario(@Valid @RequestBody final UsuarioDTO usuarioDTO) throws URISyntaxException {
+    public ResponseEntity<UsuarioDTO> editUsuario(@Valid @RequestBody final UsuarioDTO usuarioDTO, @PathVariable final Long id) throws URISyntaxException {
         if(usuarioDTO.getId()==null){
             throw new IllegalArgumentException("Para esta operación se requiere un id.");
         }
+
+        if (!Objects.equals(usuarioDTO.getId(), id)) {
+            throw new IllegalArgumentException("Id no valido");
+        }
+
+        usuarioDTO.setId(id);
         UsuarioDTO usuarioDB=usuarioService.save(usuarioDTO);
         return ResponseEntity.created(new URI("v1/usuarios/"+usuarioDB.getId())).body(usuarioDB);
     }

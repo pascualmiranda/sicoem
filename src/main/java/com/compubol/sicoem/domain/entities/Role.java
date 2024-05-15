@@ -15,16 +15,16 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name="rol")
-public class Rol {
+public class Role {
     @Id
     private Integer id;
-    @Column(unique=true)
-    @NotBlank(message = "El código de rol es requerido")
-    private String codigo;
-    @NotBlank(message = "La descripción del rol es requerido")
+    @Column(name = "codigo",unique=true)
+    //@NotBlank(message = "El nombre del es requerido")
+    private String name;
+    //@NotBlank(message = "La descripción del rol es requerido")
     private String descripcion;
     @Column(columnDefinition = "boolean default true", nullable = false)
     private Boolean estado=true;
-    @OneToMany(mappedBy = "rol", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Usuario> usuario;
+    /*@OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Usuario> usuario;*/
 }

@@ -2,6 +2,7 @@ package com.compubol.sicoem.domain.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -15,11 +16,12 @@ import java.time.LocalDateTime;
 @Table(name="movimiento")
 public class Movimiento {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(columnDefinition = "TIMESTAMP", nullable = false)
     @CreationTimestamp
     private LocalDateTime fecha;
-    @NotBlank(message = "La cantidad en movimiento es requerido")
+    @NotNull(message = "La cantidad en movimiento es requerido")
     private Double cantidad;
     private String referencia;
     private String concepto;
@@ -27,11 +29,11 @@ public class Movimiento {
     private String tipo;
     @Column(columnDefinition = "boolean default true", nullable = false)
     private Boolean estado=true;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotBlank(message = "El tipo de movimiento es requerido")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull(message = "El tipo de movimiento es requerido")
     @JoinColumn(name="tipomov_id")
     private TipoMovimiento tipoMovimiento;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="empeno_id")
     private Empeno empeno;
     /*@ManyToOne(fetch = FetchType.LAZY)

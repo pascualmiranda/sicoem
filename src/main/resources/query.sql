@@ -16,7 +16,7 @@ CREATE TABLE sicoem.persona (
   UNIQUE(ci)
 );
 
-CREATE TABLE sicoem.rol (
+CREATE TABLE sicoem.role (
   id SERIAL  NOT NULL ,
   codigo VARCHAR(10) UNIQUE  NOT NULL ,
   descripcion VARCHAR(150)    ,
@@ -34,7 +34,7 @@ PRIMARY KEY(id)  ,
   FOREIGN KEY(persona_id)
     REFERENCES sicoem.persona(id),
   FOREIGN KEY(rol_id)
-    REFERENCES sicoem.rol(id));
+    REFERENCES sicoem.role(id));
 
 CREATE TABLE sicoem.municipio (
   id SERIAL  NOT NULL ,
